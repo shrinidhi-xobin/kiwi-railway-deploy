@@ -1,7 +1,8 @@
 import os
+from tcms.settings.common import INSTALLED_APPS as _BASE_APPS, MIDDLEWARE as _BASE_MIDDLEWARE
 
-INSTALLED_APPS.append("social_django")
-MIDDLEWARE.append("social_django.middleware.SocialAuthExceptionMiddleware")
+INSTALLED_APPS = _BASE_APPS + ["social_django"]
+MIDDLEWARE = _BASE_MIDDLEWARE + ["social_django.middleware.SocialAuthExceptionMiddleware"]
 
 AUTHENTICATION_BACKENDS = [
     "social_core.backends.google.GoogleOAuth2",
@@ -12,9 +13,8 @@ AUTHENTICATION_BACKENDS = [
 SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = os.environ.get("SOCIAL_AUTH_GOOGLE_OAUTH2_KEY")
 SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = os.environ.get("SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET")
 
-# Optional: restrict logins to your company's Google Workspace domain
 _allowed_domain = os.environ.get("SOCIAL_AUTH_GOOGLE_OAUTH2_WHITELISTED_DOMAIN")
 if _allowed_domain:
     SOCIAL_AUTH_GOOGLE_OAUTH2_WHITELISTED_DOMAINS = [_allowed_domain]
 
-ROOT_URLCONF = "tcms_settings_dir.urls_with_social"
+ROOT_URLCONF = "kiwi_customizations.urls_with_social"
