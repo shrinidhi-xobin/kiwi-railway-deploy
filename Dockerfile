@@ -17,3 +17,4 @@ RUN TCMS_PKG_DIR=$(python -c "import tcms, os; print(os.path.dirname(tcms.__file
     cp /tmp/urls_with_social.py "$SITE_PACKAGES/kiwi_customizations/urls_with_social.py" && \
     mkdir -p "$TCMS_PKG_DIR/templates/registration" && \
     cp /tmp/custom_login.html "$TCMS_PKG_DIR/templates/registration/custom_login.html"
+# force rebuild 2026-07-13
