@@ -1,6 +1,6 @@
 import os
 from tcms.settings.common import INSTALLED_APPS as _BASE_APPS, MIDDLEWARE as _BASE_MIDDLEWARE
-
+SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 INSTALLED_APPS = _BASE_APPS + ["social_django"]
 MIDDLEWARE = _BASE_MIDDLEWARE + ["social_django.middleware.SocialAuthExceptionMiddleware"]
 
