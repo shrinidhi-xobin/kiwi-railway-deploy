@@ -1,0 +1,2 @@
+FROM kiwitcms/kiwi:latest
+COPY nginx.conf /Kiwi/etc/nginx.conf
