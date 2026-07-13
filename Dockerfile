@@ -12,6 +12,8 @@ RUN TCMS_PKG_DIR=$(python -c "import tcms, os; print(os.path.dirname(tcms.__file
     mkdir -p "$SITE_PACKAGES/tcms_settings_dir" && \
     touch "$SITE_PACKAGES/tcms_settings_dir/__init__.py" && \
     cp /tmp/zzz_google_auth.py "$SITE_PACKAGES/tcms_settings_dir/zzz_google_auth.py" && \
-    cp /tmp/urls_with_social.py "$SITE_PACKAGES/tcms_settings_dir/urls_with_social.py" && \
+    mkdir -p "$SITE_PACKAGES/kiwi_customizations" && \
+    touch "$SITE_PACKAGES/kiwi_customizations/__init__.py" && \
+    cp /tmp/urls_with_social.py "$SITE_PACKAGES/kiwi_customizations/urls_with_social.py" && \
     mkdir -p "$TCMS_PKG_DIR/templates/registration" && \
     cp /tmp/custom_login.html "$TCMS_PKG_DIR/templates/registration/custom_login.html"
