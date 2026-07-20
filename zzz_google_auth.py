@@ -4,7 +4,6 @@ from tcms.settings.common import INSTALLED_APPS as _BASE_APPS, MIDDLEWARE as _BA
 SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 INSTALLED_APPS = _BASE_APPS + ["social_django"]
 MIDDLEWARE = _BASE_MIDDLEWARE + ["social_django.middleware.SocialAuthExceptionMiddleware"]
-DEBUG = True
 
 AUTHENTICATION_BACKENDS = [
     "social_core.backends.google.GoogleOAuth2",
