@@ -1,7 +1,10 @@
-FROM kiwitcms/kiwi:latest
+FROM kiwitcms/kiwi@sha256:2e350a30c1c9b93ec8f5e1322a8c6227c4acc59d0f53b966eee6804629240a3f
 
 COPY nginx.conf /Kiwi/etc/nginx.conf
-RUN pip install social-auth-app-django
+RUN pip install --no-cache-dir social-auth-app-django
+
+# Cloud Run sends HTTP to the container and expects the service on this port.
+ENV PORT=8080
 
 COPY zzz_google_auth.py /tmp/zzz_google_auth.py
 COPY urls_with_social.py /tmp/urls_with_social.py
@@ -17,4 +20,3 @@ RUN TCMS_PKG_DIR=$(python -c "import tcms, os; print(os.path.dirname(tcms.__file
     cp /tmp/urls_with_social.py "$SITE_PACKAGES/kiwi_customizations/urls_with_social.py" && \
     mkdir -p "$TCMS_PKG_DIR/templates/registration" && \
     cp /tmp/custom_login.html "$TCMS_PKG_DIR/templates/registration/custom_login.html"
-# force rebuild 2026-07-13
