@@ -16,6 +16,22 @@ gcloud run deploy kiwi \
   --allow-unauthenticated
 ```
 
+Alternatively, use the checked-in service manifest after replacing its
+`REGION`, `PROJECT_ID`, `REPOSITORY`, service URL, and secret names:
+
+```bash
+gcloud run services replace cloudrun-service.yaml \
+  --region REGION
+
+gcloud run services add-iam-policy-binding kiwi \
+  --region REGION \
+  --member="allUsers" \
+  --role="roles/run.invoker"
+```
+
+The manifest is intentionally not ready to apply until those placeholders
+are replaced with values from your Google Cloud project.
+
 Before deployment, test the image locally:
 
 ```bash

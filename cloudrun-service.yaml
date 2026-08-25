@@ -1,0 +1,39 @@
+apiVersion: serving.knative.dev/v1
+kind: Service
+metadata:
+  name: kiwi
+  annotations:
+    run.googleapis.com/ingress: all
+spec:
+  template:
+    metadata:
+      annotations:
+        autoscaling.knative.dev/minScale: "0"
+    spec:
+      containerConcurrency: 80
+      timeoutSeconds: 300
+      containers:
+        - image: REGION-docker.pkg.dev/PROJECT_ID/REPOSITORY/kiwi:latest
+          ports:
+            - name: http1
+              containerPort: 8080
+          env:
+            - name: DJANGO_SECRET_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: kiwi-django-secret
+                  key: latest
+            - name: SOCIAL_AUTH_GOOGLE_OAUTH2_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: google-oauth-client-id
+                  key: latest
+            - name: SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: google-oauth-client-secret
+                  key: latest
+            - name: ALLOWED_HOSTS
+              value: "SERVICE-HASH-REGION.a.run.app"
+            - name: CSRF_TRUSTED_ORIGINS
+              value: "https://SERVICE-HASH-REGION.a.run.app"
