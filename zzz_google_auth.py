@@ -1,6 +1,7 @@
 import os
 
 SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY")
 from tcms.settings.common import INSTALLED_APPS as _BASE_APPS, MIDDLEWARE as _BASE_MIDDLEWARE
 
 INSTALLED_APPS = _BASE_APPS + ["social_django"]
