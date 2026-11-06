@@ -47,8 +47,7 @@ Set these through Cloud Run environment variables or Secret Manager. Do not comm
 - Django secret key required by the Kiwi base image
 - Database connection settings required by the Kiwi base image
 - Redis/cache connection settings, if enabled
-- `SOCIAL_AUTH_GOOGLE_OAUTH2_KEY`
-- `SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET`
+- Google OAuth credentials in the `api-service-creds` JSON secret, with `SUPPORT_GOOGLE_OAUTH_CLIENT_ID` and `SUPPORT_GOOGLE_OAUTH_CLIENT_SECRET` keys
 - `SOCIAL_AUTH_GOOGLE_OAUTH2_WHITELISTED_DOMAIN` when domain restriction is required
 - `ALLOWED_HOSTS` containing the Cloud Run URL and any custom domain
 - `CSRF_TRUSTED_ORIGINS` containing `https://` versions of those domains
@@ -58,10 +57,10 @@ Use Secret Manager for sensitive values:
 ```bash
 gcloud run services update kiwi \
   --region REGION \
-  --set-secrets DJANGO_SECRET_KEY=kiwi-django-secret:latest,SOCIAL_AUTH_GOOGLE_OAUTH2_KEY=google-oauth-client-id:latest,SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET=google-oauth-client-secret:latest
+  --set-secrets DJANGO_SECRET_KEY=kiwi-django-secret:latest,SUPPORT_GOOGLE_OAUTH_CREDENTIALS=api-service-creds:latest
 ```
 
-The Cloud Run service account needs `roles/secretmanager.secretAccessor` for those secrets.
+The Cloud Run service account needs `roles/secretmanager.secretAccessor` for those secrets. The OAuth JSON secret must contain the keys `SUPPORT_GOOGLE_OAUTH_CLIENT_ID` and `SUPPORT_GOOGLE_OAUTH_CLIENT_SECRET`.
 
 ## Google OAuth
 

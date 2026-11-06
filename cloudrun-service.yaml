@@ -4,6 +4,7 @@ metadata:
   name: kiwi
   annotations:
     run.googleapis.com/ingress: all
+    run.googleapis.com/cloudsql-instances: "interact-202104:asia-south1:staging-user"
 spec:
   template:
     metadata:
@@ -23,17 +24,25 @@ spec:
                 secretKeyRef:
                   name: kiwi-django-secret
                   key: latest
-            - name: SOCIAL_AUTH_GOOGLE_OAUTH2_KEY
+            - name: SUPPORT_GOOGLE_OAUTH_CREDENTIALS
               valueFrom:
                 secretKeyRef:
-                  name: google-oauth-client-id
-                  key: latest
-            - name: SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET
-              valueFrom:
-                secretKeyRef:
-                  name: google-oauth-client-secret
+                  name: api-service-creds
                   key: latest
             - name: ALLOWED_HOSTS
-              value: "SERVICE-HASH-REGION.a.run.app"
+              value: "kiwi-809583518692.us-central1.run.app"
             - name: CSRF_TRUSTED_ORIGINS
-              value: "https://SERVICE-HASH-REGION.a.run.app"
+              value: "https://kiwi-809583518692.us-central1.run.app"
+            - name: DB_HOST
+              value: "/cloudsql/interact-202104:asia-south1:staging-user"
+            - name: DB_NAME
+              value: "kiwi_new_db"
+            - name: DB_USER
+              value: "kiwi_app_user"
+            - name: DB_PORT
+              value: "3306"
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: kiwi-db-pass
+                  key: latest
