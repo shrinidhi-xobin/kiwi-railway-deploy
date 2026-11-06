@@ -1,3 +1,4 @@
+import json
 import os
 
 SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
@@ -24,8 +25,22 @@ SOCIAL_AUTH_PIPELINE = (
     "social_core.pipeline.social_auth.load_extra_data",
     "social_core.pipeline.user.user_details",
 )
-SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = os.environ.get("SOCIAL_AUTH_GOOGLE_OAUTH2_KEY")
-SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = os.environ.get("SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET")
+
+_oauth_credentials_json = os.environ.get("SUPPORT_GOOGLE_OAUTH_CREDENTIALS")
+if _oauth_credentials_json:
+    _oauth_credentials = json.loads(_oauth_credentials_json)
+    if not isinstance(_oauth_credentials, dict):
+        raise ValueError("SUPPORT_GOOGLE_OAUTH_CREDENTIALS must contain a JSON object")
+    SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = _oauth_credentials.get("SUPPORT_GOOGLE_OAUTH_CLIENT_ID")
+    SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = _oauth_credentials.get("SUPPORT_GOOGLE_OAUTH_CLIENT_SECRET")
+    if not SOCIAL_AUTH_GOOGLE_OAUTH2_KEY or not SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET:
+        raise ValueError(
+            "SUPPORT_GOOGLE_OAUTH_CREDENTIALS must include "
+            "SUPPORT_GOOGLE_OAUTH_CLIENT_ID and SUPPORT_GOOGLE_OAUTH_CLIENT_SECRET"
+        )
+else:
+    SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = os.environ.get("SOCIAL_AUTH_GOOGLE_OAUTH2_KEY")
+    SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = os.environ.get("SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET")
 
 _allowed_domain = os.environ.get("SOCIAL_AUTH_GOOGLE_OAUTH2_WHITELISTED_DOMAIN")
 if _allowed_domain:
